@@ -1,5 +1,5 @@
-import React, {useRef, useEffect, useState} from 'react';
-import {useMapsLibrary} from '@vis.gl/react-google-maps';
+import React, {useRef, useEffect, useState, useCallback} from 'react';
+import {useMap, useMapsLibrary} from '@vis.gl/react-google-maps';
 
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
@@ -27,9 +27,19 @@ export const PlaceAutocompleteClassic = ({onPlaceSelect}: Props) => {
     if (!placeAutocomplete) return;
 
     placeAutocomplete.addListener('place_changed', () => {
-      onPlaceSelect(placeAutocomplete.getPlace());
+      const place = placeAutocomplete.getPlace()
+      handlePlaceChanged(place)
+      onPlaceSelect(place);
     });
   }, [onPlaceSelect, placeAutocomplete]);
+
+  const map = useMap();
+  const handlePlaceChanged = useCallback((place: google.maps.places.PlaceResult | null) => {
+    if(!map) return;
+    if(!place?.geometry?.location) return;
+    console.log('place selected: ', place.geometry.location.toString());
+    map.panTo(place.geometry.location);
+  });
 
   return (
     <div className="autocomplete-container">
