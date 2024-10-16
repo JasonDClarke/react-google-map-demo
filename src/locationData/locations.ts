@@ -576,13 +576,6 @@ export const locations: Poi[] = [
     }
   },
   {
-    "key": "Christ Church Creekmoor, BH17 7XZ, United Kingdom",
-    "location": {
-      "lat": 50.7412283,
-      "lng": -2.0039301
-    }
-  },
-  {
     "key": "Hebron, CH45 4JL, United Kingdom",
     "location": {
       "lat": 53.4220579,
@@ -835,13 +828,6 @@ export const locations: Poi[] = [
     }
   },
   {
-    "key": "Jesmond Parish Church, NE2 4DJ, United Kingdom",
-    "location": {
-      "lat": 54.983271,
-      "lng": -1.6070032
-    }
-  },
-  {
     "key": "Burtonsville Baptist Chrich, 20866, United States",
     "location": {
       "lat": 39.10660740117097,
@@ -1073,13 +1059,6 @@ export const locations: Poi[] = [
     }
   },
   {
-    "key": "Worthing Tabernacle, BN11 1BN, United Kingdom",
-    "location": {
-      "lat": 50.8148216,
-      "lng": -0.3709794515336121
-    }
-  },
-  {
     "key": "Junction Road Evangelical Church, B21 0EL, United Kingdom",
     "location": {
       "lat": 52.5044633,
@@ -1133,13 +1112,6 @@ export const locations: Poi[] = [
     "location": {
       "lat": 52.455649,
       "lng": 1.4384171666666665
-    }
-  },
-  {
-    "key": "Holy Trinity Stalybridge, SK15 2JS, United Kingdom",
-    "location": {
-      "lat": 53.4827,
-      "lng": -2.05548
     }
   },
   {
