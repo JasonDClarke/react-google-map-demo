@@ -36,6 +36,8 @@ import { locations } from './locationData/locations';
 
 type Poi ={ key: string, location: google.maps.LatLngLiteral }
 
+export const defaultZoom = 13
+
 const App = () => {
   const [selectedPlace, setSelectedPlace] =
   useState<google.maps.places.PlaceResult | null>(null);
@@ -46,7 +48,7 @@ const App = () => {
   return (
     <APIProvider apiKey={'YOUR API KEY'} onLoad={() => console.log('Maps API has loaded.')}>
       <Map
-        defaultZoom={13}
+        defaultZoom={defaultZoom}
         defaultCenter={{ lat: 51.5138455, lng: -0.0983506 }}
         onCameraChanged={ (ev: MapCameraChangedEvent) =>
           console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
@@ -71,7 +73,11 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
     if(!map) return;
     if(!ev.latLng) return;
     console.log('marker clicked: ', ev.latLng.toString());
-    map.panTo(ev.latLng);
+    if (map.getZoom() === defaultZoom) {
+      map.panTo(ev.latLng);
+    } else {
+      map.moveCamera({zoom: defaultZoom, center: ev.latLng})
+    }
     setCircleCenter(ev.latLng);
   });
   // Initialize MarkerClusterer, if the map has changed

@@ -1,5 +1,6 @@
 import React, {useRef, useEffect, useState, useCallback} from 'react';
 import {useMap, useMapsLibrary} from '@vis.gl/react-google-maps';
+import { defaultZoom } from '../app';
 
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
@@ -38,7 +39,12 @@ export const PlaceAutocompleteClassic = ({onPlaceSelect}: Props) => {
     if(!map) return;
     if(!place?.geometry?.location) return;
     console.log('place selected: ', place.geometry.location.toString());
-    map.panTo(place.geometry.location);
+
+    if (map.getZoom() === defaultZoom) {
+      map.panTo(place.geometry.location);
+    } else {
+      map.moveCamera({zoom: defaultZoom, center: place.geometry.location})
+    }
   });
 
   return (
