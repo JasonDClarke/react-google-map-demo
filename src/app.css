@@ -1,0 +1,9 @@
+.sidebar {
+    min-width: 500px;
+
+}
+
+.wrapper {
+    height: 100%;
+    display: flex;
+}

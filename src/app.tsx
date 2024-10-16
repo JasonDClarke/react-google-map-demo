@@ -15,6 +15,7 @@
 */
 
 import React, {useEffect, useState, useRef, useCallback} from 'react';
+import './app.css'
 import {createRoot} from 'react-dom/client';
 
 import {
@@ -47,20 +48,29 @@ const App = () => {
 
   return (
     <APIProvider apiKey={'YOUR API KEY'} onLoad={() => console.log('Maps API has loaded.')}>
-      <Map
-        defaultZoom={defaultZoom}
-        defaultCenter={{ lat: 51.5138455, lng: -0.0983506 }}
-        onCameraChanged={ (ev: MapCameraChangedEvent) =>
-          console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
-        }
-        mapId='da37f3254c6a6d1c'
-      >
-      <PoiMarkers pois={locations} />
-      <CustomMapControl
-        controlPosition={ControlPosition.TOP}
-        onPlaceSelect={setSelectedPlace}
-      />
-    </Map>
+      <section className='wrapper'>
+        <Map
+          defaultZoom={defaultZoom}
+          defaultCenter={{ lat: 51.5138455, lng: -0.0983506 }}
+          onCameraChanged={ (ev: MapCameraChangedEvent) =>
+            console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
+          }
+          mapId='da37f3254c6a6d1c'
+        >
+        <PoiMarkers pois={locations} />
+        <CustomMapControl
+          controlPosition={ControlPosition.TOP}
+          onPlaceSelect={setSelectedPlace}
+        />
+      </Map>
+      <div className='sidebar' >
+          {locations.map(
+            location => <div>
+              {location.key}
+            </div>
+          )}
+      </div>
+    </section>
   </APIProvider>)
 };
 
