@@ -23,13 +23,15 @@ import {
   useMap,
   AdvancedMarker,
   MapCameraChangedEvent,
-  Pin
+  ControlPosition,
+  Pin,
 } from '@vis.gl/react-google-maps';
 
 import {MarkerClusterer} from '@googlemaps/markerclusterer';
 import type {Marker} from '@googlemaps/markerclusterer';
 
 import {Circle} from './components/circle'
+import { CustomMapControl } from './components/map-control';
 
 type Poi ={ key: string, location: google.maps.LatLngLiteral }
 const locations: Poi[] = [
@@ -50,20 +52,31 @@ const locations: Poi[] = [
   {key: 'barangaroo', location: { lat: - 33.8605523, lng: 151.1972205 }},
 ];
 
-const App = () => (
-  <APIProvider apiKey={'Your API key here'} onLoad={() => console.log('Maps API has loaded.')}>
-    <Map
-      defaultZoom={13}
-      defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
-      onCameraChanged={ (ev: MapCameraChangedEvent) =>
-        console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
-      }
-      mapId='da37f3254c6a6d1c'
+const App = () => {
+  const [selectedPlace, setSelectedPlace] =
+  useState<google.maps.places.PlaceResult | null>(null);
+  useEffect(() => {
+
+  }, [selectedPlace])
+
+  return (
+    <APIProvider apiKey={'YOUR API KEY'} onLoad={() => console.log('Maps API has loaded.')}>
+      <Map
+        defaultZoom={13}
+        defaultCenter={{ lat: 51.5138455, lng: -0.0983506 }}
+        onCameraChanged={ (ev: MapCameraChangedEvent) =>
+          console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
+        }
+        mapId='da37f3254c6a6d1c'
       >
-    <PoiMarkers pois={locations} />
+      <PoiMarkers pois={locations} />
+      <CustomMapControl
+        controlPosition={ControlPosition.TOP}
+        onPlaceSelect={setSelectedPlace}
+      />
     </Map>
-  </APIProvider>
-);
+  </APIProvider>)
+};
 
 const PoiMarkers = (props: { pois: Poi[] }) => {
   const map = useMap();
