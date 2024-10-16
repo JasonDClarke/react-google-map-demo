@@ -68,7 +68,7 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
   const map = useMap();
   const [markers, setMarkers] = useState<{[key: string]: Marker}>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
-  const [circleCenter, setCircleCenter] = useState(null)
+  const [circleCenter, setCircleCenter] = useState<google.maps.LatLng | null>(null)
   const handleClick = useCallback((ev: google.maps.MapMouseEvent) => {
     if(!map) return;
     if(!ev.latLng) return;
@@ -79,7 +79,7 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
       map.moveCamera({zoom: defaultZoom, center: ev.latLng})
     }
     setCircleCenter(ev.latLng);
-  });
+  }, [map]);
   // Initialize MarkerClusterer, if the map has changed
   useEffect(() => {
     if (!map) return;
@@ -125,7 +125,7 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
           key={poi.key}
           position={poi.location}
           ref={marker => setMarkerRef(marker, poi.key)}
-          clickable={true}
+          gmpClickable={true}
           onClick={handleClick}
           >
             <Pin background={'#FBBC04'} glyphColor={'#000'} borderColor={'#000'} />
