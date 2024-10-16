@@ -140,6 +140,7 @@ function useCircle(props: CircleProps) {
 /**
  * Component to render a Google Maps Circle on a map
  */
+// eslint-disable-next-line react/display-name
 export const Circle = forwardRef((props: CircleProps, ref: CircleRef) => {
   const circle = useCircle(props);
 

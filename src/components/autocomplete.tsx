@@ -45,7 +45,7 @@ export const PlaceAutocompleteClassic = ({onPlaceSelect}: Props) => {
     } else {
       map.moveCamera({zoom: defaultZoom, center: place.geometry.location})
     }
-  });
+  }, [map]);
 
   return (
     <div className="autocomplete-container">

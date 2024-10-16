@@ -65,7 +65,7 @@ const App = () => {
       </Map>
       <div className='sidebar' >
           {locations.map(
-            location => <div>
+            location => <div key={location.key}>
               {location.key}
             </div>
           )}
@@ -135,7 +135,7 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
           key={poi.key}
           position={poi.location}
           ref={marker => setMarkerRef(marker, poi.key)}
-          gmpClickable={true}
+          clickable={true}
           onClick={handleClick}
           >
             <Pin background={'#FBBC04'} glyphColor={'#000'} borderColor={'#000'} />
