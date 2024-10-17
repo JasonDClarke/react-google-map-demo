@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+{
+    /* // API Price/billing warning - this file uses the Maps Javascript API when rendering the map
+  // see https://console.cloud.google.com/google/maps-apis/metrics */
+}
+
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import './font-face.css'
 import './app.css'
@@ -62,6 +67,8 @@ const App = () => {
             onLoad={() => console.log('Maps API has loaded.')}
         >
             <section className="wrapper">
+                {/* // API Price/billing warning - this component uses the Maps Javascript API when rendering the map
+                 // see https://console.cloud.google.com/google/maps-apis/metrics */}
                 <Map
                     defaultZoom={defaultZoom}
                     defaultCenter={defaultCenter}
