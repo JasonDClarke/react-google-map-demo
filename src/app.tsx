@@ -15,6 +15,7 @@
  */
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
+import './font-face.css'
 import './app.css'
 import { createRoot } from 'react-dom/client'
 
