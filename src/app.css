@@ -15,6 +15,17 @@
 .wrapper {
     height: 100%;
     display: flex;
+    flex-wrap: nowrap;
+}
+
+@media (max-width: 1024px) {
+    .wrapper {
+        flex-wrap: wrap;
+    }
+
+    .sidebar {
+        min-width: 100%;
+    }
 }
 
 .sidebar {
