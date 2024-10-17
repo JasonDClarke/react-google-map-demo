@@ -1,5 +1,8 @@
 import React from 'react'
-import { filterAndSortByDistance } from '../distanceUtils/filterSortByDistance'
+import {
+    filterAndSortByDistance,
+    sortByDistance,
+} from '../distanceUtils/filterSortByDistance'
 import { churchData } from '../locationData/fullData'
 
 import { useMap } from '@vis.gl/react-google-maps'
@@ -13,15 +16,22 @@ export const ChurchData = ({
     const map = useMap()
     if (!map) return
 
-    const locations = filterAndSortByDistance(churchData, center)
-
+    let locations = filterAndSortByDistance(churchData, center)
+    let fiveMileWarning = false
     if (!locations.length) {
-        return <div>Sorry, no locations found within 5 miles of search</div>
+        fiveMileWarning = true
+        locations = sortByDistance(churchData, center).slice(0, 1)
     }
 
     return (
         <div>
-            {filterAndSortByDistance(churchData, center).map((location) => {
+            {fiveMileWarning && (
+                <div>
+                    Sorry, no locations found within 5 miles of search. Here is
+                    the closest location.
+                </div>
+            )}
+            {locations.map((location) => {
                 const distance = haversine(location, center)
 
                 return (
