@@ -20,6 +20,12 @@ export const PlaceAutocompleteClassic = ({ onPlaceSelect }: Props) => {
     useEffect(() => {
         if (!places || !inputRef.current) return
 
+        // API Price/billing warning
+        // - DO NOT ADD MORE OPTIONS HERE or api will use more expensive $17 per 1000 request places api (because its requesting rich data)
+        // these options ore ok for reguler autocomplete which is $2.83 per 1000 requests
+        // BUT KEEP THIS FIELDS PARAMETER AS IS
+        // See this youtube video to explain
+        // https://www.youtube.com/watch?v=VOP8cvCLGac&t=134s
         const options = {
             fields: ['geometry', 'name', 'formatted_address'],
         }
