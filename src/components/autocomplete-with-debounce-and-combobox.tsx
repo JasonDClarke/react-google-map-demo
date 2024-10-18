@@ -3,6 +3,11 @@ import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 import Combobox from 'react-widgets/Combobox'
 
 import 'react-widgets/styles.css'
+import { useDebounce } from 'use-debounce'
+
+// API billing optimizations
+const debounceTime = 1000
+const autocompleteMinimumLength = 2
 
 interface Props {
     onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void
@@ -30,6 +35,8 @@ export const AutocompleteCustomHybrid = ({ onPlaceSelect }: Props) => {
     >([])
 
     const [inputValue, setInputValue] = useState<string>('')
+    // debounce
+    const [debouncedValue] = useDebounce(inputValue, debounceTime)
 
     const [fetchingData, setFetchingData] = useState<boolean>(false)
 
@@ -61,15 +68,26 @@ export const AutocompleteCustomHybrid = ({ onPlaceSelect }: Props) => {
         [autocompleteService, sessionToken]
     )
 
-    const onInputChange = useCallback(
-        (value: google.maps.places.AutocompletePrediction | string) => {
-            if (typeof value === 'string') {
-                setInputValue(value)
-                fetchPredictions(value)
-            }
+    const onInputChange = (
+        value: google.maps.places.AutocompletePrediction | string
+    ) => {
+        if (typeof value === 'string') {
+            setInputValue(value)
+        }
+    }
+
+    const onDebouncedInputChange = useCallback(
+        (debouncedValue) => {
+            fetchPredictions(debouncedValue)
         },
         [fetchPredictions]
     )
+
+    useEffect(() => {
+        if (debouncedValue.length >= autocompleteMinimumLength) {
+            onDebouncedInputChange(debouncedValue)
+        }
+    }, [debouncedValue])
 
     const onSelect = useCallback(
         (prediction: google.maps.places.AutocompletePrediction | string) => {

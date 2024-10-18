@@ -1,7 +1,8 @@
 import React from 'react'
 import { ControlPosition, MapControl } from '@vis.gl/react-google-maps'
-import { AutocompleteCustomWithDebounce } from './autocomplete-with-debounce'
+import { AutocompleteCustomHybrid } from './autocomplete-with-debounce-and-combobox'
 
+// import { AutocompleteCustomWithDebounce } from './autocomplete-with-debounce'
 // import { PlaceAutocompleteClassic } from './autocomplete'
 // alternative function
 // import { PlaceSearchBoxClassic } from './searchbox'
@@ -18,7 +19,7 @@ export const CustomMapControl = ({
     return (
         <MapControl position={controlPosition}>
             <div className="autocomplete-control">
-                <AutocompleteCustomWithDebounce onPlaceSelect={onPlaceSelect} />
+                <AutocompleteCustomHybrid onPlaceSelect={onPlaceSelect} />
             </div>
         </MapControl>
     )
