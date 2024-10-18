@@ -34,7 +34,7 @@ Maps Javascript Api: 1 hit
 Use case 5: Open page, use streetview
 Maps Javascript Api: 1 hit
 
-Use case 6: Open page, type "Empire state building, USA" in search bar
+Use case 6: Open page, type "Empire state building, USA" in search bar (slowly so debounce is not enacted)
 Maps Javascript Api: 1 hit
 Places api: 25 Hits
 
@@ -65,6 +65,6 @@ Maps Javascript Api: 1 hit
 Use case 5: Open page, use streetview
 Maps Javascript Api: 1 hit
 
-Use case 6: Open page, type "Empire state building, USA" in search bar
+Use case 6: Open page, type "Empire state building, USA" in search bar (slowly so debounce is not enacted)
 Maps Javascript Api: 1 hit
 Places api: 25 Hits
