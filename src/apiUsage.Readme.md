@@ -12,12 +12,51 @@ This test takes about 15-30 minutes to complete
 Use case 1: Open page
 Maps Javascript Api: 1 hit
 
-Use case 2: Open Page and type "Watford" in search bar
+Use case 2a: Open Page and type "Watford" in search bar (quickly so debounce is enacted)
+Maps Javascript Api: 1 hit
+Places api: 1 hits
+
+Use case 2b: Open Page and type "Watford" in search bar (slowly so debounce is not enacted)
 Maps Javascript Api: 1 hit
 Places api: 7 hits
 
-Use case 3: Open Page, type "Watford" in search bar, Select Watford
+Use case a: Open Page, type "Watford" in search bar, Select Watford (quickly so debounce is enacted)
+Maps Javascript Api: 1 hits
+Places api: 1 hits
+
+Use case b: Open Page, type "Watford" in search bar, Select Watford (slowly so debounce is not enacted)
+Maps Javascript Api: 1 hits
+Places api: 7 hits
+
+Use case 4: Open page, Select a marker
 Maps Javascript Api: 1 hit
+
+Use case 5: Open page, use streetview
+Maps Javascript Api: 1 hit
+
+Use case 6: Open page, type "Empire state building, USA" in search bar
+Maps Javascript Api: 1 hit
+Places api: 25 Hits
+
+Extended tests:
+Repeat on mobile:
+Use case 1: Open page
+Maps Javascript Api: 1 hit
+
+Use case 2a: Open Page and type "Watford" in search bar (quickly so debounce is enacted)
+Maps Javascript Api: 1 hit
+Places api: 1 hits
+
+Use case 2b: Open Page and type "Watford" in search bar (slowly so debounce is not enacted)
+Maps Javascript Api: 1 hit
+Places api: 7 hits
+
+Use case a: Open Page, type "Watford" in search bar, Select Watford (quickly so debounce is enacted)
+Maps Javascript Api: 1 hits
+Places api: 1 hits
+
+Use case b: Open Page, type "Watford" in search bar, Select Watford (slowly so debounce is not enacted)
+Maps Javascript Api: 1 hits
 Places api: 7 hits
 
 Use case 4: Open page, Select a marker
