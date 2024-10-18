@@ -45,7 +45,7 @@ import { apiKey } from './apiKey'
 
 type Poi = { key: string; location: google.maps.LatLngLiteral }
 
-export const defaultZoom = 13
+export const defaultZoom = 11
 
 // Wrap the Geolocation API in a Promise
 function getPosition(): Promise<GeolocationPosition> {
@@ -81,6 +81,7 @@ const App = () => {
 
                 // Update state with coordinates
                 setCoordinates({ lat, lng })
+                setCenter({ lat, lng })
             } catch (err) {
                 setError('Error retrieving location')
                 console.error(err)
@@ -90,9 +91,9 @@ const App = () => {
         fetchCoordinates()
     }, [])
 
-    const defaultCenter = { lat: 51.5138455, lng: -0.0983506 } // st pauls
+    const fallbackCenter = { lat: 51.5138455, lng: -0.0983506 } // st pauls
     const [center, setCenter] =
-        useState<google.maps.LatLngLiteral>(defaultCenter)
+        useState<google.maps.LatLngLiteral>(fallbackCenter)
 
     return (
         <APIProvider
@@ -105,7 +106,7 @@ const App = () => {
                 {(coordinates || error) && (
                     <Map
                         defaultZoom={defaultZoom}
-                        defaultCenter={coordinates || defaultCenter}
+                        defaultCenter={coordinates || fallbackCenter}
                         onCameraChanged={(ev: MapCameraChangedEvent) => {
                             // WARNING setting (eg center useState state here slows down performance of dragging significantly)
                             console.log(
