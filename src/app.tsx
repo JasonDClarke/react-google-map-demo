@@ -41,6 +41,7 @@ import { CustomMapControl } from './components/map-control'
 
 import { locations } from './locationData/locations'
 import { ChurchData } from './components/church-data'
+import { apiKey } from './apiKey'
 
 type Poi = { key: string; location: google.maps.LatLngLiteral }
 
@@ -63,7 +64,7 @@ const App = () => {
 
     return (
         <APIProvider
-            apiKey={'YOUR API KEY'}
+            apiKey={apiKey}
             onLoad={() => console.log('Maps API has loaded.')}
         >
             <section className="wrapper">
