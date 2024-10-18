@@ -4,6 +4,7 @@ import Combobox from 'react-widgets/Combobox'
 
 import 'react-widgets/styles.css'
 import { useDebounce } from 'use-debounce'
+import { defaultZoom } from '../app'
 
 // API billing optimizations
 const debounceTime = 1000
@@ -107,7 +108,22 @@ export const AutocompleteCustomHybrid = ({ onPlaceSelect }: Props) => {
                 onPlaceSelect(placeDetails)
                 setInputValue(placeDetails?.formatted_address ?? '')
                 setSessionToken(new places.AutocompleteSessionToken())
+                // Code for updating map
+                if (!map) return
+                if (!placeDetails?.geometry?.location) return
+                console.log(
+                    'place selected: ',
+                    placeDetails.geometry.location.toString()
+                )
 
+                if (map.getZoom() === defaultZoom) {
+                    map.panTo(placeDetails.geometry.location)
+                } else {
+                    map.moveCamera({
+                        zoom: defaultZoom,
+                        center: placeDetails.geometry.location,
+                    })
+                }
                 setFetchingData(false)
             }
 
