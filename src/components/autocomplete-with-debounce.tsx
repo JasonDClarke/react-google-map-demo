@@ -1,3 +1,5 @@
+// see https://github.com/visgl/react-google-maps/blob/main/examples/autocomplete/src/autocomplete-custom.tsx
+
 import React, { useEffect, useState, useCallback, FormEvent } from 'react'
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 import { defaultZoom } from '../app'
