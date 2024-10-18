@@ -90,6 +90,7 @@ const App = () => {
                         controlPosition={ControlPosition.TOP}
                         onPlaceSelect={setSelectedPlace}
                     />
+                    <UserLocation setCenter={setCenter} />
                 </Map>
                 <div className="sidebar">
                     <ChurchData center={center} />
@@ -168,6 +169,44 @@ const PoiMarkers = (props: {
             ))}
         </>
     )
+}
+
+const UserLocation = ({
+    setCenter,
+}: {
+    setCenter: React.Dispatch<React.SetStateAction<google.maps.LatLngLiteral>>
+}) => {
+    // use location of user to get center
+    const map = useMap()
+    useEffect(() => {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log('user location received: ', position)
+                const positionLatLng = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                }
+                console.log(map)
+                if (!map) return
+                if (map.getZoom() === defaultZoom) {
+                    map.panTo(positionLatLng)
+                } else {
+                    map.moveCamera({
+                        zoom: defaultZoom,
+                        center: positionLatLng,
+                    })
+                }
+                setCenter({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                })
+            })
+        } else {
+            /* geolocation IS NOT available */
+        }
+    }, [map])
+
+    return <div></div>
 }
 
 export default App
