@@ -34,7 +34,10 @@ import {
     Pin,
 } from '@vis.gl/react-google-maps'
 
-import { MarkerClusterer } from '@googlemaps/markerclusterer'
+import {
+    defaultOnClusterClickHandler,
+    MarkerClusterer,
+} from '@googlemaps/markerclusterer'
 import type { Marker } from '@googlemaps/markerclusterer'
 
 import { CustomMapControl } from './components/map-control'
@@ -165,7 +168,15 @@ const PoiMarkers = (props: {
     useEffect(() => {
         if (!map) return
         if (!clusterer.current) {
-            clusterer.current = new MarkerClusterer({ map })
+            const onClusterClickHandler = (e, cluster, map) => {
+                // YOUR CODE HERE
+                defaultOnClusterClickHandler(e, cluster, map)
+                props.setCenter({ lat: e.latLng.lat(), lng: e.latLng.lng() })
+            }
+            clusterer.current = new MarkerClusterer({
+                map,
+                onClusterClick: onClusterClickHandler,
+            })
         }
     }, [map])
 
