@@ -42,6 +42,7 @@ import { CustomMapControl } from './components/map-control'
 import { locations } from './locationData/locations'
 import { ChurchData } from './components/church-data'
 import { apiKey } from './apiKey'
+import { haversine } from './distanceUtils/haversine'
 
 type Poi = { key: string; location: google.maps.LatLngLiteral }
 
@@ -119,7 +120,11 @@ const App = () => {
                         }}
                         mapId="da37f3254c6a6d1c"
                     >
-                        <PoiMarkers pois={locations} setCenter={setCenter} />
+                        <PoiMarkers
+                            pois={locations}
+                            setCenter={setCenter}
+                            center={center}
+                        />
                         <CustomMapControl
                             controlPosition={ControlPosition.TOP}
                             onPlaceSelect={setSelectedPlace}
@@ -137,6 +142,7 @@ const App = () => {
 const PoiMarkers = (props: {
     pois: Poi[]
     setCenter: React.Dispatch<React.SetStateAction<google.maps.LatLngLiteral>>
+    center: google.maps.LatLngLiteral
 }) => {
     const map = useMap()
     const [markers, setMarkers] = useState<{ [key: string]: Marker }>({})
@@ -186,21 +192,28 @@ const PoiMarkers = (props: {
 
     return (
         <>
-            {props.pois.map((poi: Poi) => (
-                <AdvancedMarker
-                    key={poi.key}
-                    position={poi.location}
-                    ref={(marker) => setMarkerRef(marker, poi.key)}
-                    clickable={true}
-                    onClick={handleClick}
-                >
-                    <Pin
-                        background={'#FBBC04'}
-                        glyphColor={'#000'}
-                        borderColor={'#000'}
-                    />
-                </AdvancedMarker>
-            ))}
+            {props.pois.map((poi: Poi) => {
+                let background = '#FBBC04'
+                if (haversine(poi.location, props.center) <= 5) {
+                    background = '#00FF00'
+                }
+
+                return (
+                    <AdvancedMarker
+                        key={poi.key}
+                        position={poi.location}
+                        ref={(marker) => setMarkerRef(marker, poi.key)}
+                        clickable={true}
+                        onClick={handleClick}
+                    >
+                        <Pin
+                            background={background}
+                            glyphColor={'#000'}
+                            borderColor={'#000'}
+                        />
+                    </AdvancedMarker>
+                )
+            })}
         </>
     )
 }
