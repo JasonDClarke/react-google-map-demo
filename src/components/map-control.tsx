@@ -1,8 +1,9 @@
 import React from 'react'
 import { ControlPosition, MapControl } from '@vis.gl/react-google-maps'
 
-// import {PlaceAutocompleteClassic} from './autocomplete';
-import { PlaceSearchBoxClassic } from './searchbox'
+import { PlaceAutocompleteClassic } from './autocomplete'
+// alternative function
+// import { PlaceSearchBoxClassic } from './searchbox'
 
 type CustomAutocompleteControlProps = {
     controlPosition: ControlPosition
@@ -16,7 +17,7 @@ export const CustomMapControl = ({
     return (
         <MapControl position={controlPosition}>
             <div className="autocomplete-control">
-                <PlaceSearchBoxClassic onPlaceSelect={onPlaceSelect} />
+                <PlaceAutocompleteClassic onPlaceSelect={onPlaceSelect} />
             </div>
         </MapControl>
     )
