@@ -50,6 +50,9 @@ import { haversine } from './distanceUtils/haversine'
 type Poi = { key: string; location: google.maps.LatLngLiteral }
 
 export const defaultZoom = 11
+// toggle to increase performance at cost of losing global markers
+// eg 50 would only render markers within 50 miles
+const markerRadiusLimit = null as number | null
 
 // Wrap the Geolocation API in a Promise
 function getPosition(): Promise<GeolocationPosition> {
@@ -109,6 +112,9 @@ const App = () => {
                 // see https://console.cloud.google.com/google/maps-apis/metrics */}
                 {(coordinates || error) && (
                     <Map
+                        mapTypeControlOptions={{
+                            position: ControlPosition.BOTTOM_CENTER,
+                        }}
                         defaultZoom={defaultZoom}
                         defaultCenter={coordinates || fallbackCenter}
                         onCameraChanged={(ev: MapCameraChangedEvent) => {
@@ -129,7 +135,7 @@ const App = () => {
                             center={center}
                         />
                         <CustomMapControl
-                            controlPosition={ControlPosition.TOP}
+                            controlPosition={ControlPosition.TOP_CENTER}
                             onPlaceSelect={setSelectedPlace}
                         />
                     </Map>
@@ -207,6 +213,14 @@ const PoiMarkers = (props: {
                 let background = '#FBBC04'
                 if (haversine(poi.location, props.center) <= 5) {
                     background = '#00FF00'
+                }
+
+                // performance toggle
+                if (
+                    markerRadiusLimit &&
+                    haversine(poi.location, props.center) >= markerRadiusLimit
+                ) {
+                    return null
                 }
 
                 return (

@@ -71,3 +71,7 @@ body {
     color: white;
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
+
+.autocomplete-container {
+    margin-top: 10px;
+}
