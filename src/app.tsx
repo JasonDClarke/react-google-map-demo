@@ -47,7 +47,16 @@ type Poi = { key: string; location: google.maps.LatLngLiteral }
 
 export const defaultZoom = 13
 
-const defaultCenter = { lat: 51.5138455, lng: -0.0983506 } // st pauls
+// Wrap the Geolocation API in a Promise
+function getPosition(): Promise<GeolocationPosition> {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(resolve, reject)
+        } else {
+            reject(new Error('Geolocation is not supported by this browser.'))
+        }
+    })
+}
 
 const App = () => {
     const [selectedPlace, setSelectedPlace] =
@@ -59,6 +68,29 @@ const App = () => {
         setCenter(center)
     }, [selectedPlace])
 
+    // React state to hold the coordinates
+    const [coordinates, setCoordinates] =
+        useState<google.maps.LatLngLiteral | null>(null)
+    const [error, setError] = useState<string | null>(null)
+    useEffect(() => {
+        const fetchCoordinates = async () => {
+            try {
+                const position = await getPosition()
+                const lat = position.coords.latitude
+                const lng = position.coords.longitude
+
+                // Update state with coordinates
+                setCoordinates({ lat, lng })
+            } catch (err) {
+                setError('Error retrieving location')
+                console.error(err)
+            }
+        }
+
+        fetchCoordinates()
+    }, [])
+
+    const defaultCenter = { lat: 51.5138455, lng: -0.0983506 } // st pauls
     const [center, setCenter] =
         useState<google.maps.LatLngLiteral>(defaultCenter)
 
@@ -69,29 +101,30 @@ const App = () => {
         >
             <section className="wrapper">
                 {/* // API Price/billing warning - this component uses the Maps Javascript API when rendering the map
-                 // see https://console.cloud.google.com/google/maps-apis/metrics */}
-                <Map
-                    defaultZoom={defaultZoom}
-                    defaultCenter={defaultCenter}
-                    onCameraChanged={(ev: MapCameraChangedEvent) => {
-                        // WARNING setting (eg center useState state here slows down performance of dragging significantly)
-                        console.log(
-                            'camera changed:',
-                            ev.detail.center,
-                            'zoom:',
-                            ev.detail.zoom
-                        )
-                        // setCenter(ev.detail.center)
-                    }}
-                    mapId="da37f3254c6a6d1c"
-                >
-                    <PoiMarkers pois={locations} setCenter={setCenter} />
-                    <CustomMapControl
-                        controlPosition={ControlPosition.TOP}
-                        onPlaceSelect={setSelectedPlace}
-                    />
-                    <UserLocation setCenter={setCenter} />
-                </Map>
+                // see https://console.cloud.google.com/google/maps-apis/metrics */}
+                {(coordinates || error) && (
+                    <Map
+                        defaultZoom={defaultZoom}
+                        defaultCenter={coordinates || defaultCenter}
+                        onCameraChanged={(ev: MapCameraChangedEvent) => {
+                            // WARNING setting (eg center useState state here slows down performance of dragging significantly)
+                            console.log(
+                                'camera changed:',
+                                ev.detail.center,
+                                'zoom:',
+                                ev.detail.zoom
+                            )
+                            // setCenter(ev.detail.center)
+                        }}
+                        mapId="da37f3254c6a6d1c"
+                    >
+                        <PoiMarkers pois={locations} setCenter={setCenter} />
+                        <CustomMapControl
+                            controlPosition={ControlPosition.TOP}
+                            onPlaceSelect={setSelectedPlace}
+                        />
+                    </Map>
+                )}
                 <div className="sidebar">
                     <ChurchData center={center} />
                 </div>
@@ -169,44 +202,6 @@ const PoiMarkers = (props: {
             ))}
         </>
     )
-}
-
-const UserLocation = ({
-    setCenter,
-}: {
-    setCenter: React.Dispatch<React.SetStateAction<google.maps.LatLngLiteral>>
-}) => {
-    // use location of user to get center
-    const map = useMap()
-    useEffect(() => {
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                console.log('user location received: ', position)
-                const positionLatLng = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                }
-                console.log(map)
-                if (!map) return
-                if (map.getZoom() === defaultZoom) {
-                    map.panTo(positionLatLng)
-                } else {
-                    map.moveCamera({
-                        zoom: defaultZoom,
-                        center: positionLatLng,
-                    })
-                }
-                setCenter({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                })
-            })
-        } else {
-            /* geolocation IS NOT available */
-        }
-    }, [map])
-
-    return <div></div>
 }
 
 export default App
