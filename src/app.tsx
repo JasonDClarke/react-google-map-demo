@@ -44,8 +44,12 @@ import { CustomMapControl } from './components/map-control'
 
 import { locations } from './locationData/locations'
 import { ChurchData } from './components/church-data'
-import { apiKey } from './apiKey'
 import { haversine } from './distanceUtils/haversine'
+
+// @ts-expect-error vite env variable
+const env = await import.meta.env
+
+const apiKey = env.VITE_GOOGLE_MAPS_API_KEY // Get an API Key on https://myprojects.geoapify.com
 
 type Poi = { key: string; location: google.maps.LatLngLiteral }
 

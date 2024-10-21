@@ -8,13 +8,15 @@
     "react-dom": "^18.2.0",
     "react-widgets": "^5.8.4",
     "use-debounce": "^10.0.4",
-    "vite": "^5.0.4"
+    "vite": "^5.0.4",
+    "vite-plugin-top-level-await": "^1.4.4"
   },
   "scripts": {
     "start": "vite",
     "start-local": "vite --config ./vite.config.local.js",
     "build": "vite build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",
