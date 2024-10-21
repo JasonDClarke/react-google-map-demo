@@ -1,3 +1,19 @@
+## Run demo
+1. Add a google api key to 
+src\apiKey.ts
+export const apiKey = 'YOUR_API_KEY'
+
+2. (optional) Update locations if needed
+locations.ts and fullData.ts - make sure they are synced
+
+3. run start command
+npm start
+
+4. Go to site
+http://localhost:5173/
+
+
+See readme of initial code here
 # Google Maps Platform 101: React Codelab
 
 ## Description
